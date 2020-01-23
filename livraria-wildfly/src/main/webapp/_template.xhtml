@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<h:head>
+	<h:link rel="icon" href="logotipo.png" type="img/x-icon" />
+</h:head>
+<h:body>
+	<div id="cabecalho">
+
+		<p:growl id="messages" showDetail="true" autoUpdate="true" />
+
+		<h:form rendered="#{usuarioLogado != null}">
+			<b:navBar>
+				<b:navbarLinks>
+					<b:navCommandLink action="menu?faces-redirect=true">
+						<h:graphicImage library="img" name="logotipo.png" />
+					</b:navCommandLink>
+					<b:dropMenu value="Cadastrar" iconAwesome="clone">
+						<b:navCommandLink value="Livro" action="livro?faces-redirect=true"/>
+						<b:navCommandLink value="Cliente" action="cliente?faces-redirect=true"/>
+						<b:navCommandLink value="Autor" action="autor?faces-redirect=true"/>
+					</b:dropMenu>
+					<b:navCommandLink value="Venda" iconAwesome="bitcoin" action="vendas?faces-redirect=true"/>
+					<b:navCommandLink value="Logout" iconAwesome="sign-out" action="#{loginBean.deslogar}"/>
+				</b:navbarLinks>				 
+			</b:navBar>
+		</h:form>
+
+		<h1>
+			<ui:insert name="titulo"></ui:insert>
+		</h1>
+	</div>
+
+	<div id="conteudo">
+		<b:container>
+			<ui:insert name="conteudo">
+			</ui:insert>
+		</b:container>
+		<ui:insert name="conteudo2">
+		</ui:insert>
+	</div>
+</h:body>
+
+</html>

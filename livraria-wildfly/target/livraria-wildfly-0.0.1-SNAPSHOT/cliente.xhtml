@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+	<ui:composition template="_template.xhtml">
+		
+		<f:metadata>
+			<f:viewParam name="clienteId" value="#{clienteBean.clienteId}" />
+			<f:viewAction action="#{clienteBean.carregarClientePelaId}" if="#{param.clienteId != null}" />
+		</f:metadata>
+		
+		<ui:define name="titulo">
+			<p:outputPanel>Novo Cliente</p:outputPanel>
+		</ui:define>
+
+		<ui:define name="conteudo">
+			<h:form id="cliente">
+				<p:fieldset legend="Dados do Cliente">
+					<h:panelGrid columns="3">
+						<p:outputLabel value="Nome:" for="nome" />
+						<p:inputText id="nome" value="#{clienteBean.cliente.nome}"
+							required="true">
+							<f:validateLength minimum="5" />
+							<f:ajax event="blur" render="messageNome" />
+						</p:inputText>
+						<p:message for="nome" id="messageNome" />
+						
+						<p:outputLabel value="Telefone:" for="telefone" />
+						<p:inputMask mask="(99) 99999-9999" id="telefone" value="#{clienteBean.cliente.telefone}" required="true" validatorMessage="Telefone inválido">
+							<f:attribute name="type" value="telefone" />
+							<f:passThroughAttribute name="placeholder" value="Telefone do Cliente" />
+							
+							<f:ajax event="blur" render="messageTelefone" />
+						</p:inputMask> 
+						<p:message for="telefone" id="messageTelefone" />
+						
+						<p:commandButton value="Gravar" action="#{clienteBean.gravar}" process="@form" update="@form :formTabelaClientes" />
+					</h:panelGrid>
+				</p:fieldset>
+			</h:form>
+			<h:form id="formTabelaClientes">
+			<p:dataList value="#{clienteBean.clientes}" var="cliente" type="definition">
+		        <f:facet name="header">
+		            Clientes
+		        </f:facet>
+		       
+		       <p:commandButton icon="fa fa-fw fa-edit" update=":cliente" >
+						<f:setPropertyActionListener value="#{cliente}" target="#{clienteBean.cliente}" />
+				</p:commandButton>
+		       
+		       <p:commandButton icon="fa fa-fw fa-remove" action="#{clienteBean.remover(cliente)}" update="@form"/>
+		       
+		       #{cliente.nome} - #{cliente.telefone}
+		    </p:dataList>
+		
+			</h:form>	
+			
+		</ui:define>
+
+	</ui:composition>
+
+</html>
